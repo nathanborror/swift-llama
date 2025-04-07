@@ -104,15 +104,28 @@ public struct ChatStreamResponse: Codable, Sendable {
 
     public struct Event: Codable, Sendable {
         public let event_type: String
-        public let delta: Content?
+        public let delta: Delta?
         public let stop_reason: String?
         public let tool_calls: [ToolCall]?
 
-        public struct Content: Codable, Sendable {
+        public struct Delta: Codable, Sendable {
             public let type: String
+
+            // Content
             public let text: String?
+
+            // Reasoning
             public let reasoning: String?
             public let answer: String?
+
+            // Tool Call
+            public let id: String?
+            public let function: Function?
+
+            public struct Function: Codable, Sendable {
+                public let name: String?
+                public let arguments: String?
+            }
         }
     }
 }
