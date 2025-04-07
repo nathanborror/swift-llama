@@ -58,7 +58,20 @@ struct ChatCompletion: AsyncParsableCommand {
         let client = Llama.Client(apiKey: global.key)
         let request = ChatRequest(model: model, messages: [.init(role: .user, content: prompt)])
         let resp = try await client.chatCompletions(request)
-        print(resp)
+
+        if let reasoning = resp.completion_message.content.reasoning, let data = reasoning.data(using: .utf8) {
+            FileHandle.standardOutput.write("<reasoning>".data(using: .utf8)!)
+            FileHandle.standardOutput.write(data)
+            FileHandle.standardOutput.write("</reasoning>\n\n".data(using: .utf8)!)
+        }
+        if let answer = resp.completion_message.content.answer, let data = answer.data(using: .utf8) {
+            FileHandle.standardOutput.write("<answer>".data(using: .utf8)!)
+            FileHandle.standardOutput.write(data)
+            FileHandle.standardOutput.write("\n</answer>".data(using: .utf8)!)
+        }
+        if let text = resp.completion_message.content.text, let data = text.data(using: .utf8) {
+            FileHandle.standardOutput.write(data)
+        }
     }
 }
 
@@ -81,7 +94,27 @@ struct ChatStreamCompletion: AsyncParsableCommand {
         let request = ChatRequest(model: model, messages: [.init(role: .user, content: prompt)], stream: true)
 
         for try await resp in try client.chatCompletionsStream(request) {
-            print(resp)
+
+            // Reasoning
+            if let text = resp.event.delta?.reasoning, let data = text.data(using: .utf8) {
+                FileHandle.standardOutput.write(data)
+            }
+            if let text = resp.event.delta?.answer, let data = text.data(using: .utf8) {
+                FileHandle.standardOutput.write(data)
+            }
+
+            // Content
+            if let text = resp.event.delta?.text, let data = text.data(using: .utf8) {
+                FileHandle.standardOutput.write(data)
+            }
+
+            // Tool Call
+            if let name = resp.event.delta?.function?.name, let data = name.data(using: .utf8) {
+                FileHandle.standardOutput.write(data)
+            }
+            if let arguments = resp.event.delta?.function?.arguments, let data = arguments.data(using: .utf8) {
+                FileHandle.standardOutput.write(data)
+            }
         }
     }
 }
