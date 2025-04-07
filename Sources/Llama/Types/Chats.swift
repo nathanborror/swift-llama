@@ -16,10 +16,39 @@ public struct ChatRequest: Codable, Sendable {
 
     public struct Message: Codable, Sendable {
         public var role: Role
-        public var content: String
+        public var content: [Content]
         public var tool_call_id: String?
         public var tool_calls: [ToolCall]?
         public var stop_reason: String?
+
+        public struct Content: Codable, Sendable {
+            public var type: ContentType
+            public var text: String?
+            public var image_url: ImageURL?
+
+            public enum ContentType: String, Codable, Sendable {
+                case text
+                case image
+            }
+
+            public struct ImageURL: Codable, Sendable {
+                public var url: String
+
+                public init(url: String) {
+                    self.url = url
+                }
+            }
+
+            public init(text: String) {
+                self.type = .text
+                self.text = text
+            }
+
+            public init(image url: String) {
+                self.type = .image
+                self.image_url = .init(url: url)
+            }
+        }
 
         public enum Role: String, Codable, Sendable {
             case system
@@ -28,7 +57,7 @@ public struct ChatRequest: Codable, Sendable {
             case tool
         }
 
-        public init(role: Role, content: String, tool_call_id: String? = nil, tool_calls: [ToolCall]? = nil, stop_reason: String? = nil) {
+        public init(role: Role, content: [Content], tool_call_id: String? = nil, tool_calls: [ToolCall]? = nil, stop_reason: String? = nil) {
             self.role = role
             self.content = content
             self.tool_call_id = tool_call_id

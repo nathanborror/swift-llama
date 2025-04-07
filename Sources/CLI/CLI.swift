@@ -56,7 +56,7 @@ struct ChatCompletion: AsyncParsableCommand {
         guard let model = global.model else { return }
 
         let client = Llama.Client(apiKey: global.key)
-        let request = ChatRequest(model: model, messages: [.init(role: .user, content: prompt)])
+        let request = ChatRequest(model: model, messages: [.init(role: .user, content: [.init(text: prompt)])])
         let resp = try await client.chatCompletions(request)
 
         if let reasoning = resp.completion_message.content.reasoning, let data = reasoning.data(using: .utf8) {
@@ -91,7 +91,7 @@ struct ChatStreamCompletion: AsyncParsableCommand {
         guard let model = global.model else { return }
 
         let client = Llama.Client(apiKey: global.key)
-        let request = ChatRequest(model: model, messages: [.init(role: .user, content: prompt)], stream: true)
+        let request = ChatRequest(model: model, messages: [.init(role: .user, content: [.init(text: prompt)])], stream: true)
 
         for try await resp in try client.chatCompletionsStream(request) {
 
