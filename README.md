@@ -1,3 +1,5 @@
+<img src="Echo.png" width="256">
+
 # Swift Llama
 
 A Swift client library for interacting with Meta's [Llama API](https://llama.developer.meta.com).
