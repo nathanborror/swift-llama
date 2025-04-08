@@ -19,7 +19,7 @@ public struct ChatRequest: Codable, Sendable {
         public var content: [Content]
         public var tool_call_id: String?
         public var tool_calls: [ToolCall]?
-        public var stop_reason: String?
+        public var stop_reason: StopReason?
 
         public struct Content: Codable, Sendable {
             public var type: ContentType
@@ -57,7 +57,7 @@ public struct ChatRequest: Codable, Sendable {
             case tool
         }
 
-        public init(role: Role, content: [Content], tool_call_id: String? = nil, tool_calls: [ToolCall]? = nil, stop_reason: String? = nil) {
+        public init(role: Role, content: [Content], tool_call_id: String? = nil, tool_calls: [ToolCall]? = nil, stop_reason: StopReason? = nil) {
             self.role = role
             self.content = content
             self.tool_call_id = tool_call_id
@@ -119,12 +119,6 @@ public struct ChatResponse: Codable, Sendable {
             public let reasoning: String?
             public let answer: String?
         }
-
-        public enum StopReason: String, Codable, Sendable {
-            case stop
-            case tool_calls
-            case length
-        }
     }
 
     public struct Metric: Codable, Sendable {
@@ -161,11 +155,11 @@ public struct ChatStreamResponse: Codable, Sendable {
                 public let arguments: String?
             }
         }
-
-        public enum StopReason: String, Codable, Sendable {
-            case stop
-            case tool_calls
-            case length
-        }
     }
+}
+
+public enum StopReason: String, Codable, Sendable {
+    case stop
+    case tool_calls
+    case length
 }
