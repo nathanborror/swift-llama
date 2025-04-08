@@ -96,23 +96,23 @@ struct ChatStreamCompletion: AsyncParsableCommand {
         for try await resp in try client.chatCompletionsStream(request) {
 
             // Reasoning
-            if let text = resp.event.delta?.reasoning, let data = text.data(using: .utf8) {
+            if let text = resp.event.delta.reasoning, let data = text.data(using: .utf8) {
                 FileHandle.standardOutput.write(data)
             }
-            if let text = resp.event.delta?.answer, let data = text.data(using: .utf8) {
+            if let text = resp.event.delta.answer, let data = text.data(using: .utf8) {
                 FileHandle.standardOutput.write(data)
             }
 
             // Content
-            if let text = resp.event.delta?.text, let data = text.data(using: .utf8) {
+            if let text = resp.event.delta.text, let data = text.data(using: .utf8) {
                 FileHandle.standardOutput.write(data)
             }
 
             // Tool Call
-            if let name = resp.event.delta?.function?.name, let data = name.data(using: .utf8) {
+            if let name = resp.event.delta.function?.name, let data = name.data(using: .utf8) {
                 FileHandle.standardOutput.write(data)
             }
-            if let arguments = resp.event.delta?.function?.arguments, let data = arguments.data(using: .utf8) {
+            if let arguments = resp.event.delta.function?.arguments, let data = arguments.data(using: .utf8) {
                 FileHandle.standardOutput.write(data)
             }
         }

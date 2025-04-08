@@ -110,7 +110,7 @@ public struct ChatResponse: Codable, Sendable {
     public struct CompletionMessage: Codable, Sendable {
         public let role: String
         public let content: Content
-        public let stop_reason: String
+        public let stop_reason: StopReason
         public let tool_calls: [ToolCall]?
 
         public struct Content: Codable, Sendable {
@@ -118,6 +118,12 @@ public struct ChatResponse: Codable, Sendable {
             public let text: String?
             public let reasoning: String?
             public let answer: String?
+        }
+
+        public enum StopReason: String, Codable, Sendable {
+            case stop
+            case tool_calls
+            case length
         }
     }
 
@@ -133,9 +139,8 @@ public struct ChatStreamResponse: Codable, Sendable {
 
     public struct Event: Codable, Sendable {
         public let event_type: String
-        public let delta: Delta?
-        public let stop_reason: String?
-        public let tool_calls: [ToolCall]?
+        public let delta: Delta
+        public let stop_reason: StopReason?
 
         public struct Delta: Codable, Sendable {
             public let type: String
@@ -155,6 +160,12 @@ public struct ChatStreamResponse: Codable, Sendable {
                 public let name: String?
                 public let arguments: String?
             }
+        }
+
+        public enum StopReason: String, Codable, Sendable {
+            case stop
+            case tool_calls
+            case length
         }
     }
 }
