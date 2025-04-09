@@ -6,6 +6,7 @@ import Llama
 struct CLI: AsyncParsableCommand {
 
     static var configuration = CommandConfiguration(
+        commandName: "llama",
         abstract: "A utility for interacting with Meta's Llama API.",
         version: "0.0.1",
         subcommands: [
@@ -53,8 +54,9 @@ struct ChatCompletion: AsyncParsableCommand {
     var prompt: String
 
     func run() async throws {
-        guard let model = global.model else { return }
-
+        guard let model = global.model else {
+            fatalError("Missing model argument")
+        }
         let client = Llama.Client(apiKey: global.key)
         let request = ChatRequest(model: model, messages: [.init(role: .user, content: [.init(text: prompt)])])
         let resp = try await client.chatCompletions(request)
