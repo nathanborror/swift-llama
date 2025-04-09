@@ -1,8 +1,8 @@
-<img src="Echo.png" width="256">
+<img src="Images/Animal.png" width="256">
 
 # Swift Llama
 
-A Swift client library for interacting with Meta's [Llama API](https://llama.developer.meta.com).
+An unofficial Swift client library for interacting with Meta's [Llama API](https://llama.developer.meta.com).
 
 ## Requirements
 
@@ -74,19 +74,21 @@ do {
 
 ### Command Line Interface
 
-    $ make
-    $ ./llama
-    OVERVIEW: A utility for interacting with Meta's Llama API.
+```
+$ make
+$ ./llama
+OVERVIEW: A utility for interacting with Meta's Llama API.
 
-    USAGE: cli <subcommand>
+USAGE: llama <subcommand>
 
-    OPTIONS:
-      --version               Show the version.
-      -h, --help              Show help information.
+OPTIONS:
+  --version               Show the version.
+  -h, --help              Show help information.
 
-    SUBCOMMANDS:
-      models                  Returns available models.
-      chat                    Completes a chat request.
-      chat-stream             Completes a chat streaming request.
+SUBCOMMANDS:
+  models                  Returns available models.
+  chat                    Completes a chat request.
+  chat-stream             Completes a chat streaming request.
 
-      See 'cli help <subcommand>' for detailed help.
+  See 'cli help <subcommand>' for detailed help.
+```
