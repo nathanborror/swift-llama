@@ -1,5 +1,5 @@
 import Foundation
-import JSON
+import JSONSchema
 
 public struct Tool: Codable, Sendable {
     public var type: String
