@@ -12,8 +12,8 @@ public final class Client {
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
 
-    public init(session: URLSession = URLSession(configuration: .default), host: URL? = nil, apiKey: String) {
-        self.session = session
+    public init(session: URLSession? = nil, host: URL? = nil, apiKey: String) {
+        self.session = session ?? URLSession(configuration: .default)
         self.host = host ?? Self.defaultHost
         self.apiKey = apiKey
         self.encoder = JSONEncoder()
