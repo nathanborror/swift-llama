@@ -111,7 +111,7 @@ extension Client {
         request.setValue("text/event-stream", forHTTPHeaderField: "Accept")
 
         return AsyncThrowingStream { continuation in
-            let session = StreamingSession<Response>(session: session, request: request)
+            let session = StreamingSession<Response>(configuration: session.configuration, request: request)
             session.onReceiveContent = {_, object in
                 continuation.yield(object)
             }
